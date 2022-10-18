@@ -25,20 +25,26 @@ app.get('/', function(req, res) {
 });
 
 app.get('/results', (req, res)=>{
+  console.log(req.query)
+  // let results
   axios.get(`http://www.omdbapi.com/?apikey=${process.env.OMDb_API_KEY}&s=${req.query.q}`)
-    .then((response)=>{
-        res.send(response.data)
-        // res.render('results',{movies: response.data.Search})
+    .then(results=>{
+        console.log(results.data.Search)
+        res.render('results.ejs', {results: results.data.Search})
+    })
+    .catch(err =>{
+      console.log("opp! there eas an issue retrieving API")
     })
 })
-
 app.get('/movies/:id', (req, res)=>{
+console.log(req.params)
+
   axios.get(`http://www.omdbapi.com/?apikey=${process.env.OMDb_API_KEY}&i=${req.params.id}`)
-    .then((response)=>{
-        // res.send(response.data.Title)
-        res.render('detail',{movie: response.data})
+    .then(movieDetails=>{
+        console.log(movieDetails.data)
+        res.render('detail.ejs', movieDetails.data)
     })
-})
+  })
 // The app.listen function returns a server handle
 var server = app.listen(process.env.PORT || 3000);
 
