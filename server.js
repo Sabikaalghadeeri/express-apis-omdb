@@ -27,8 +27,16 @@ app.get('/', function(req, res) {
 app.get('/results', (req, res)=>{
   axios.get(`http://www.omdbapi.com/?apikey=${process.env.OMDb_API_KEY}&s=${req.query.q}`)
     .then((response)=>{
-        // res.send(response.data)
-        res.render('results',{movies: response.data.Search})
+        res.send(response.data)
+        // res.render('results',{movies: response.data.Search})
+    })
+})
+
+app.get('/movies/:id', (req, res)=>{
+  axios.get(`http://www.omdbapi.com/?apikey=${process.env.OMDb_API_KEY}&i=${req.params.id}`)
+    .then((response)=>{
+        // res.send(response.data.Title)
+        res.render('detail',{movie: response.data})
     })
 })
 // The app.listen function returns a server handle
