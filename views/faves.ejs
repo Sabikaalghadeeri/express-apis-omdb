@@ -1,0 +1,8 @@
+<!-- add a ul(unordered list) -->
+<!-- for each that takes the favourite movies array  -->
+<!-- li that shows that movie title and id <%=//movie.title%> -->
+<ul>
+    <%allFave.forEach((movie)=>{%> 
+        <li><span>Title:</span> <%=movie.title%> <span>Id:</span> <%=movie.imdbid%></li>
+    <% }) %>
+</ul>

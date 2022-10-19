@@ -45,6 +45,47 @@ console.log(req.params)
         res.render('detail.ejs', movieDetails.data)
     })
   })
+
+
+  
+  
+//Add To Fave Routes:
+app.post('/faves', (req,res)=>{
+  console.log(`Movie Title: ${req.body.title}`)
+  console.log(`Movie Id: ${req.body.imdbid}`)
+    async function addToFaves(){
+      try{
+          const newFave = await db.fave.create({
+              title: req.body.title, 
+              imdbid: req.body.imdbid
+          }, res.redirect('/faves'))
+          
+          console.log("Added to Fave", newFave)
+      }
+      catch(err){
+          console.log(err)
+      }
+  }
+  addToFaves()
+  })
+  
+  
+  app.get('/faves', (req,res)=>{
+  
+    async function readAllFavMovies() {
+      try {
+        const allFave = await db.fave.findAll({
+          attributes: ['title', 'imdbid']
+        })
+        res.render('faves', {allFave})
+        console.log(allFave);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    readAllFavMovies()
+  
+  })
 // The app.listen function returns a server handle
 var server = app.listen(process.env.PORT || 3000);
 
